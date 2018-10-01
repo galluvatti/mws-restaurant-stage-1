@@ -20,7 +20,8 @@ self.addEventListener('install', function (event) {
                 'img/8.jpg',
                 'img/9.jpg',
                 'img/10.jpg',
-                'data/restaurants.json'
+                'data/restaurants.json',
+                'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
             ]);
         })
     );
