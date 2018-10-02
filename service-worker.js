@@ -38,8 +38,8 @@ self.addEventListener('fetch', function (event) {
 });
 
 self.addEventListener('activate', function(event) {
+    console.log('Activating Service Worker...')
     const cacheWhitelist = ['mws'];
-
     event.waitUntil(
         caches.keys().then(function(keyList) {
             return Promise.all(keyList.map(function(key) {
