@@ -27,22 +27,26 @@ self.addEventListener('install', function (event) {
     );
 });
 
+
 self.addEventListener('fetch', function (event) {
     event.respondWith(
-        caches.open('mws-restaurant-static-v1')
-            .then(cache => cache.match(event.request))
-            .then(response => {
-                return response || fetch(event.request);
-            })
+        caches.open('mws-restaurant-static-v1').then(function (cache) {
+            return cache.match(event.request).then(function (response) {
+                return response || fetch(event.request).then(function (response) {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+            });
+        })
     );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
     console.log('Activating Service Worker...')
     const cacheWhitelist = ['mws'];
     event.waitUntil(
-        caches.keys().then(function(keyList) {
-            return Promise.all(keyList.map(function(key) {
+        caches.keys().then(function (keyList) {
+            return Promise.all(keyList.map(function (key) {
                 if (cacheWhitelist.indexOf(key) === -1) {
                     return caches.delete(key);
                 }
